@@ -13,6 +13,13 @@ spring:
     url: jdbc:mysql://localhost:3306/study?serverTimezone=Asia/Seoul
     username: root
     password: 1234
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 377161591949-i6c83d5s14b1h59qgv62n66vqc4hpdkc.apps.googleusercontent.com
+            client-secret: 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
 
 mvc:
   view:
@@ -25,3 +32,4 @@ jpa:
     naming:
       physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   show-sql: true
+
