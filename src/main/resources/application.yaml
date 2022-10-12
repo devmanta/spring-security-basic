@@ -20,6 +20,7 @@ spring:
           google:
             client-id: 377161591949-i6c83d5s14b1h59qgv62n66vqc4hpdkc.apps.googleusercontent.com
             client-secret: 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
+            scope: profile, email
 
 mvc:
   view:
