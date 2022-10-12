@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true) //@Secured 활성화
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) //@Secured 활성화, @PreAuthorize & @PostAuthorize 활성화 --> 근데 @Secured만 써도 무방함
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean

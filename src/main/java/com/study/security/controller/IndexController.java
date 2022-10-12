@@ -4,6 +4,7 @@ import com.study.security.model.User;
 import com.study.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,7 +61,13 @@ public class IndexController {
     @Secured("ROLE_ADMIN")
     @GetMapping("/info")
     public @ResponseBody String info() {
-        return "정보 보이기";
+        return "info 보이기";
+    }
+
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/data")
+    public @ResponseBody String data() {
+        return "data 보이기";
     }
 
 }
