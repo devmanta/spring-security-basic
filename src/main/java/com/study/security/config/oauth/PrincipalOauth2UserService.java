@@ -3,11 +3,11 @@ package com.study.security.config.oauth;
 import com.study.security.config.auth.PrincipalDetails;
 import com.study.security.config.oauth.provider.FacebookUserInfo;
 import com.study.security.config.oauth.provider.GoogleUserInfo;
+import com.study.security.config.oauth.provider.KakaoUserInfo;
 import com.study.security.config.oauth.provider.NaverUserInfo;
 import com.study.security.config.oauth.provider.OAuth2UserInfo;
 import com.study.security.model.User;
 import com.study.security.repository.UserRepository;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -35,7 +35,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else if("facebook".equals(loginFrom)) {
             oAuth2UserInfo = new FacebookUserInfo(oAuth2User.getAttributes());
         } else if("naver".equals(loginFrom)) {
-            oAuth2UserInfo = new NaverUserInfo((Map<String, Object>) oAuth2User.getAttributes().get("response"));
+            oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
+        } else if("kakao".equals(loginFrom)) {
+            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         } else {
             oAuth2UserInfo = null;
         }
