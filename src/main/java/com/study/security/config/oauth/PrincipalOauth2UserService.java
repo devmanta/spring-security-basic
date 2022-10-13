@@ -1,6 +1,9 @@
 package com.study.security.config.oauth;
 
 import com.study.security.config.auth.PrincipalDetails;
+import com.study.security.config.oauth.provider.FacebookUserInfo;
+import com.study.security.config.oauth.provider.GoogleUserInfo;
+import com.study.security.config.oauth.provider.OAuth2UserInfo;
 import com.study.security.model.User;
 import com.study.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +26,19 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        String provider = userRequest.getClientRegistration().getClientId(); // google
-        String providerId = oAuth2User.getAttribute("sub");
-        String email = oAuth2User.getAttribute("email");
+        OAuth2UserInfo oAuth2UserInfo;
+        String loginFrom = userRequest.getClientRegistration().getRegistrationId();
+        if("google".equals(loginFrom)) {
+            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+        } else if("facebook".equals(loginFrom)) {
+            oAuth2UserInfo = new FacebookUserInfo(oAuth2User.getAttributes());
+        } else {
+            oAuth2UserInfo = null;
+        }
+
+        String provider = oAuth2UserInfo.getProvider();
+        String providerId = oAuth2UserInfo.getProviderId();
+        String email = oAuth2UserInfo.getEmail();
         String username = provider + "_" + providerId;
         String password = bCryptPasswordEncoder.encode("1234");
         String role = "ROLE_USER";
@@ -45,7 +58,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         return new PrincipalDetails(user, oAuth2User.getAttributes());
     }
-
 
 
 }
